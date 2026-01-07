@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet First Years - Montessori Christian School</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000000;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .faith-icon {
+            font-size: 5rem;
+            color: #ffffff;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: shimmer 8s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(15px); }
+        }
+
+        .faith-section p {
+            font-size: 1.25rem;
+            color: #ffffff;
+            line-height: 1.9;
+            text-align: center;
+            animation: bounce 7s infinite;
+        }
+
+        @keyframes ananas {
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .datext {
+            font-size: 1.25rem;
+            color: #ffffff;
+            line-height: 1.9;
+            text-align: center;
+            animation: ananas 10s infinite;
+        }
+
+        .bottom-left-text {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1rem;
+            color: #ffffff;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="faith-section" id="faith">
+        <div class="faith-content">
+            <div class="faith-icon">✝</div>
+            <p>THE LORD IS KING</p>
+        </div>
+    </div>
+
+    <div class="datext">
+        <p>"In the world you will have tribulation. But take heart; I have overcome the world."</p>
+    </div>
+
+    <div class="bottom-left-text">
+        <p>John 16:33</p>
+    </div>
+
+    <script>
+       const verses = [
+    { text: '"In the world you will have tribulation. But take heart; I have overcome the world."', ref: 'John 16:33' },
+    { text: '"The Lord is my shepherd; I shall not want."', ref: 'Psalm 23:1' },
+    { text: '"For God so loved the world that he gave his one and only Son."', ref: 'John 3:16' },
+    { text: '"I can do all things through Christ who strengthens me."', ref: 'Philippians 4:13' },
+    { text: '"Be still, and know that I am God."', ref: 'Psalm 46:10' },  // <-- Added comma here!
+    { text: '"But I say unto you, That whosoever looketh on a woman to lust after her hath committed adultery with her already in his heart"', ref: 'Matthew 5:28' },  // <-- Also fixed typo: "hear" -> "heart"
+    { text: '"Flee from sexual immorality. Every other sin a person commits is outside the body, but the sexually immoral person sins against his own body"', ref: '1 Corinthians 6:18'}
+        ];  
+
+        function showRandomVerse() {
+            const randomIndex = Math.floor(Math.random() * verses.length);
+            const verse = verses[randomIndex];
+            
+            document.querySelector('.datext p').textContent = verse.text;
+            document.querySelector('.bottom-left-text p').textContent = verse.ref;
+        }
+
+        showRandomVerse();
+    </script>
+</body>
+</html>
