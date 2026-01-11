@@ -4,148 +4,286 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sweet First Years - Montessori Christian School</title>
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #000000;
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 40%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulse 10s ease-in-out infinite;
+            filter: blur(40px);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(2px 2px at 80% 10%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(2px 2px at 33% 80%, rgba(255,255,255,0.18), transparent),
+                radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.22), transparent),
+                radial-gradient(1px 1px at 45% 15%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(2px 2px at 70% 40%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.2), transparent);
+            background-size: 300% 300%;
+            animation: sparkle 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.4; 
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                background-position: 0% 0%;
+                opacity: 0.6;
+            }
+            33% { 
+                background-position: 100% 0%;
+                opacity: 1;
+            }
+            66% { 
+                background-position: 50% 100%;
+                opacity: 0.7;
+            }
         }
 
         @keyframes shimmer {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+            0%, 100% {
+                opacity: 0.5;
+                text-shadow: 0 0 20px rgba(255,255,255,0.4),
+                            0 0 40px rgba(255,255,255,0.2);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 30px rgba(255,255,255,0.6),
+                            0 0 60px rgba(255,255,255,0.3),
+                            0 0 90px rgba(255,255,255,0.1);
+            }
         }
 
         .faith-icon {
             font-size: 5rem;
-            color: #ffffff;
-            margin-bottom: 40px;
-            text-align: center;
-            animation: shimmer 8s infinite;
+            color: #fff;
+            margin-bottom: 30px;
+            animation: shimmer 6s infinite ease-in-out;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
         }
 
-        @keyframes bounce {
+        @keyframes gentleFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(15px); }
+            50% { transform: translateY(-10px); }
         }
 
         .faith-section p {
-            font-size: 1.25rem;
-            color: #ffffff;
-            line-height: 1.9;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            color: #fff;
+            animation: gentleFloat 5s infinite ease-in-out;
             text-align: center;
-            animation: bounce 7s infinite;
         }
 
-        @keyframes ananas {
-            0% { opacity: 0; }
-            25% { opacity: 1; }
-            75% { opacity: 1; }
-            100% { opacity: 0; }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
         }
 
         .datext {
-            font-size: 1.25rem;
-            color: #ffffff;
-            line-height: 1.9;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            line-height: 2;
+            max-width: 800px;
+            padding: 0 30px;
             text-align: center;
-            animation: ananas 10s infinite;
+            animation: fadeInOut 12s infinite ease-in-out;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
         }
 
-        .bottom-left-text {
+        .datext.changing {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .bottom-text {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            font-size: 1rem;
-            color: #ffffff;
-            line-height: 1.5;
+            bottom: 70px;
+            right: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.15em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .bottom-text.changing {
+            opacity: 0;
         }
 
         .new-verse-btn {
             position: fixed;
-            bottom: 10px;
-            left: 10px;
-            padding: 12px 24px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            font-size: 1rem;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 32px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.35);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.15em;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 5px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
 
         .new-verse-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateX(-50%) translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .new-verse-btn:active {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .faith-icon { font-size: 4rem; }
+            .faith-section p { font-size: 1.2rem; }
+            .datext { font-size: 1.2rem; }
         }
     </style>
 </head>
+
 <body>
-    <div class="faith-section" id="faith">
-        <div class="faith-content">
-            <div class="faith-icon">✝</div>
-            <p>THE LORD IS KING</p>
-        </div>
+
+    <div class="faith-section">
+        <div class="faith-icon">✝</div>
+        <p>THE LORD IS KING</p>
     </div>
 
     <div class="datext">
-        <p id="verseText">"In the world you will have tribulation. But take heart; I have overcome the world."</p>
+        <p id="verseText"></p>
     </div>
 
-    <div class="bottom-left-text">
-        <p id="verseRef">John 16:33</p>
+    <div class="bottom-text">
+        <p id="verseRef"></p>
     </div>
 
     <button class="new-verse-btn" onclick="showRandomVerse()">New Verse</button>
 
     <script>
-       const verses = [
-    { text: '"In the world you will have tribulation. But take heart; I have overcome the world."', ref: 'John 16:33' },
-    { text: '"The Lord is my shepherd; I shall not want."', ref: 'Psalm 23:1' },
-    { text: '"For God so loved the world that he gave his one and only Son."', ref: 'John 3:16' },
-    { text: '"I can do all things through Christ who strengthens me."', ref: 'Philippians 4:13' },
-    { text: '"Be still, and know that I am God."', ref: 'Psalm 46:10' },
-    { text: '"But I say unto you, That whosoever looketh on a woman to lust after her hath committed adultery with her already in his heart"', ref: 'Matthew 5:28' },
-    { text: '"Flee from sexual immorality. Every other sin a person commits is outside the body, but the sexually immoral person sins against his own body"', ref: '1 Corinthians 6:18'},
-    { text:'"We know that our old self was crucified with him in order that the body of sin might be brought to nothing, so that we would no longer be enslaved to sin. For one who has died has been set free from sin"', ref: 'Romans 6:6-7' },
-    { text: '"Jesus said, i am the way, the truth, and life."', ref: 'john 14:6'},
-    { text: '"Then you will know the truth, and the truth will set you free"', ref: 'john 8:32'},
-    { text: '"Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you "', ref: 'Ephesians 4:32' },
-    { text: '"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future."', ref: 'Jeremiah 29:11'},
-    { text: '"For if you forgive other people when they sin against you, your heavenly Father will also forgive you. But if you do not forgive others their sins, your Father will not forgive your sins."', ref: 'Matthew 6:14-15' },
-    { text: '"I have made a covenant with my eyes; how then could I gaze at a virgin?"', ref: 'Job 31:1' },
-    { text: '"Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."', ref: 'Proverbs 3:5-6' },
-    { text: '"I have made a covenant with my eyes; how then could I gaze at a virgin?"', ref: 'Job 31:1' },
-    { text: '"But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control. Against such things there is no law."', ref: 'Galatians 5:22-23' }, 
-    { text: '"I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing."', ref: 'John 15:5' },
-    { text: '"Never will I leave you; never will I forsake you."', ref: 'Hebrews 13:5' },
-    { text: '"Pride goes before destruction, a haughty spirit before a fall."', ref: 'Proverbs 16:18' },
-    { text: '""A tranquil heart gives life to the flesh, but envy makes the bones rot," highlighting its destructive nature.', ref: 'Proverbs 14:30' },
-    { text: '"Do not join those who drink too much wine or gorge themselves on meat, for the drunkards and gluttons become poor, and drowsiness clothes them in rags."', ref: 'Proverbs 23:20-21' },
-    { text: '"So we fix our eyes not on what is seen, but on what is unseen, since what is seen is temporary, but what is unseen is eternal."', ref: '2 Corinthians 4:18' },
-    { text: '"A slack hand causes poverty, but the hand of the diligent makes riches."', ref: 'Proverbs 10:4' },
-    { text: '"The fear of the Lord is the beginning of wisdom, and knowledge of the Holy One is understanding."', ref: 'Proverbs 9:10' },
-    { text: '"Commit to the Lord whatever you do, and he will establish your plans."', ref: 'Proverbs 16:3' }
-    
-        ];  
+        const verses = [
+            { text: "In the world you will have tribulation. But take heart; I have overcome the world.", ref: "John 16:33" },
+            { text: "The Lord is my shepherd; I shall not want.", ref: "Psalm 23:1" },
+            { text: "For God so loved the world that he gave his one and only Son.", ref: "John 3:16" },
+            { text: "I can do all things through Christ who strengthens me.", ref: "Philippians 4:13" },
+            { text: "Be still, and know that I am God.", ref: "Psalm 46:10" },
+            { text: "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand.", ref: "Isaiah 41:10" },
+            { text: "Trust in the Lord with all your heart and lean not on your own understanding.", ref: "Proverbs 3:5" },
+            { text: "The Lord is my light and my salvation—whom shall I fear?", ref: "Psalm 27:1" },
+            { text: "Cast all your anxiety on him because he cares for you.", ref: "1 Peter 5:7" },
+            { text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.", ref: "Jeremiah 29:11" },
+            { text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.", ref: "Philippians 4:6-7" },
+            { text: "I sought the LORD, and He answered me and delivered me from all my fears. Those who look to Him are radiant, and their faces shall never be ashamed. Oh, taste and see that the LORD is good! Blessed is the man who takes refuge in Him!", ref: "Psalm 34:4-8" },
+            { text: "And we know that for those who love God all things work together for good, for those who are called according to His purpose.", ref: "Romans 8:28" },
+            { text: "But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control. Against such things there is no law.", ref: "Galatians 5:22-23" }
+        ];
+
+        let currentIndex = -1;
 
         function showRandomVerse() {
-            const randomIndex = Math.floor(Math.random() * verses.length);
-            const verse = verses[randomIndex];
-            
-            document.getElementById('verseText').textContent = verse.text;
-            document.getElementById('verseRef').textContent = verse.ref;
+            const textEl = document.getElementById("verseText");
+            const refEl = document.getElementById("verseRef");
+
+            // Add changing class for fade out
+            textEl.parentElement.classList.add('changing');
+            refEl.classList.add('changing');
+
+            setTimeout(() => {
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * verses.length);
+                } while (newIndex === currentIndex && verses.length > 1);
+                
+                currentIndex = newIndex;
+                const verse = verses[currentIndex];
+
+                textEl.textContent = `"${verse.text}"`;
+                refEl.textContent = verse.ref;
+
+                // Remove changing class for fade in
+                textEl.parentElement.classList.remove('changing');
+                refEl.classList.remove('changing');
+
+                // Reset animation
+                textEl.style.animation = "none";
+                void textEl.offsetWidth;
+                textEl.style.animation = "fadeInOut 12s infinite ease-in-out";
+            }, 600);
         }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                showRandomVerse();
+            }
+        });
 
         showRandomVerse();
     </script>
+
 </body>
 </html>
-```
-
-Then save and push again:
-```
-git add V.html
-git commit -m "added new verse button"
-git push
