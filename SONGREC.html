@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommendation</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 40%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulse 10s ease-in-out infinite;
+            filter: blur(40px);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(2px 2px at 80% 10%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.2), transparent),
+                radial-gradient(2px 2px at 33% 80%, rgba(255,255,255,0.18), transparent),
+                radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.22), transparent),
+                radial-gradient(1px 1px at 45% 15%, rgba(255,255,255,0.25), transparent),
+                radial-gradient(2px 2px at 70% 40%, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.2), transparent);
+            background-size: 300% 300%;
+            animation: sparkle 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.4; 
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { 
+                background-position: 0% 0%;
+                opacity: 0.6;
+            }
+            33% { 
+                background-position: 100% 0%;
+                opacity: 1;
+            }
+            66% { 
+                background-position: 50% 100%;
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                opacity: 0.5;
+                text-shadow: 0 0 20px rgba(255,255,255,0.4),
+                            0 0 40px rgba(255,255,255,0.2);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 30px rgba(255,255,255,0.6),
+                            0 0 60px rgba(255,255,255,0.3),
+                            0 0 90px rgba(255,255,255,0.1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-5px) rotate(3deg); }
+            66% { transform: translateY(-3px) rotate(-2deg); }
+        }
+
+        .music-icon {
+            font-size: 5rem;
+            color: #fff;
+            margin-bottom: 30px;
+            animation: float 6s infinite ease-in-out;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .music-section p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            color: #fff;
+            animation: gentleFloat 5s infinite ease-in-out;
+            text-align: center;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        .song-display {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            line-height: 2;
+            max-width: 800px;
+            padding: 0 30px;
+            text-align: center;
+            animation: fadeInOut 12s infinite ease-in-out;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+        }
+
+        .song-display.changing {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .artist-info {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.15em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .artist-info.changing {
+            opacity: 0;
+        }
+
+        .next-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 32px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.35);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.15em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .next-btn:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateX(-50%) translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .next-btn:active {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .music-icon { font-size: 4rem; }
+            .music-section p { font-size: 1.2rem; }
+            .song-display { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="music-section">
+        <div class="music-icon">▶︎ •၊၊||၊|။|||| |</div>
+        <p>𝑀𝒰𝒮𝐼𝒞 𝑅𝐸𝒞𝒪𝑀𝑀𝐸𝒩𝒟𝒜𝒯𝐼𝒪𝒩</p>
+    </div>
+
+    <div class="song-display">
+        <p id="songText"></p>
+    </div>
+
+    <div class="artist-info">
+        <p id="artistInfo"></p>
+    </div>
+
+    <button class="next-btn" onclick="showRandomSong()">NEXT TRACK</button>
+
+    <script>
+        const songs = [
+            { title: "Atlantis", artist: "Seafret - indie folk / indie pop" },
+            { title: "Coffee", artist: "beabadoobee - indie rock / indie pop" },
+            { title: "Holocene", artist: "Bon Iver - indie folk" },
+            { title: "Cherry Wine", artist: "Hozier - folk / indie folk" },
+            { title: "Ophelia", artist: "The Lumineers - folk rock" },
+            { title: "Riptide", artist: "Vance Joy - indie folk" },
+            { title: "Skinny Love", artist: "Birdy - indie folk" },
+            { title: "Stolen Dance", artist: "Milky Chance - folk pop / indie pop" },
+            { title: "Take Me To Church", artist: "Hozier - alternative soul / indie soul" },
+            { title: "Youth", artist: "Daughter - indie folk / dream pop" },
+            { title: "I Kissed a Girl", artist: "Katy Perry - pop" },
+            { title: "Rolling in the Deep", artist: "Adele - pop / soul" },
+            { title: "Chandelier", artist: "Sia - pop" },
+            { title: "Royals", artist: "Lorde - pop / electropop" },
+            { title: "Pompeii", artist: "Bastille - indie pop / alternative pop" },
+            { title: "Somebody That I Used to Know", artist: "Gotye ft. Kimbra - indie pop / alternative pop" },
+            { title: "Radioactive", artist: "Imagine Dragons - alternative rock" },
+            { title: "The Search", artist: "NF - hip hop" },
+            { title: "Line Without a Hook", artist: "Ricky Montgomery - indie pop" },
+            { title: "Play Date", artist: "Melanie Martinez - indie pop / alternative pop" },
+            { title: "I'd Let the World Burn", artist: "Chris Grey - alternative R&B / pop" },
+            { title: "Devil in Disguise", artist: "Marino - indie pop" },
+            { title: "Sweater Weather", artist: "The Neighbourhood - alternative rock / indie rock" },
+            { title: "Hideaway", artist: "Marino - indie pop / alternative pop" },
+            { title: "Electric Love", artist: "BØRNS - indie pop / glam pop" },
+            { title: "Silhouette", artist: "Aquilo - indie pop / indie folk" },
+            { title: "The Night We Met", artist: "Lord Huron - indie folk" },
+            { title: "Lost in Japan", artist: "Shawn Mendes - pop / R&B pop" },
+            { title: "Better Now", artist: "Post Malone - pop rap / melodic hip hop" },
+            { title: "Sunflower", artist: "Post Malone & Swae Lee - pop rap / hip hop" },
+            { title: "Overdose", artist: "natori - alternative J-pop" },
+            { title: "Lover Boy", artist: "natori - alternative J-pop" },
+            { title: "Copine", artist: "PLK - French rap" },
+            { title: "Reste en vie", artist: "Luidji - French hip hop / rap" },
+            { title: "La pluie", artist: "Orelsan ft. Stromae - French rap" },
+            { title: "Nikes", artist: "Frank Ocean - alternative R&B" },
+            { title: "Human", artist: "Rag'n'Bone Man - Alternative soul" },
+            { title: "Ho Hey", artist: "The Lumineers - indie folk / folk rock" },
+            { title: "Budapest", artist: "George Ezra - folk rock / indie folk" },
+            { title: "Les Champs-Elysées", artist: "Joe Dassin - French pop" },
+            { title: "La Vie en Rose", artist: "Édith Piaf - French chanson" },
+            { title: "Television / So Far So Good", artist: "Rex Orange County - indie pop / alternative R&B" },
+            { title: "Loving Is Easy", artist: "Rex Orange County - indie pop" },
+            { title: "Best Part", artist: "Daniel Caesar ft. H.E.R. - R&B / neo-soul" },
+            { title: "Get You", artist: "Daniel Caesar ft. Kali Uchis - R&B / neo-soul" },
+            { title: "Japanese Denim", artist: "Daniel Caesar - R&B / neo-soul" },
+            { title: "Tek It", artist: "Cafuné - indie pop / alternative R&B" },
+            { title: "Moving On", artist: "Cafuné - indie pop / alternative R&B" },
+            { title: "By and By", artist: "Cafuné - indie pop / alternative R&B" },
+            { title: "Nothing Holding Me Back", artist: "Shawn Mendes - pop rock" },
+            { title: "In My Blood", artist: "Shawn Mendes - pop rock" },
+            { title: "Lost", artist: "Frank Ocean - alternative R&B" },
+            { title: "Moonlight", artist: "Kali Uchis - R&B / neo-soul" },
+            { title: "After the Storm", artist: "Kali Uchis ft. Tyler, The Creator & Bootsy Collins - R&B / neo-soul" },
+            { title: "See You Again", artist: "Tyler, The Creator ft. Kali Uchis - alternative hip hop / neo-soul" },
+            { title: "Garden Shed", artist: "Tyler, The Creator - alternative hip hop / neo-soul" },
+            { title: "See You Again", artist: "Wiz Khalifa ft. Charlie Puth - pop rap" },
+            { title: "Without Me", artist: "Eminem - hip hop" },
+            { title: "Love The Way You Lie", artist: "Eminem ft. Rihanna - hip hop / pop" },
+            { title: "Stan", artist: "Eminem ft. Dido - hip hop" },
+            { title: "Lovely", artist: "Billie Eilish & Khalid - pop" },
+            { title: "Ocean Eyes", artist: "Billie Eilish - pop" },
+            { title: "Bury a Friend", artist: "Billie Eilish - pop" },
+            { title: "bad guy", artist: "Billie Eilish - pop" },
+            { title: "When the Party's Over", artist: "Billie Eilish - pop" },
+            { title: "Hope", artist: "xxxtentacion - alternative R&B / emo rap" },
+            { title: "Jocelyn Flores", artist: "xxxtentacion - emo rap" },
+            { title: "Changes", artist: "xxxtentacion - alternative R&B" },
+            { title: "Lucid Dreams", artist: "Juice WRLD - emo rap / melodic rap" },
+            { title: "Back to Friends", artist: "Sombrero - indie pop / alternative R&B" },
+            { title: "Freaking Out the Neighborhood", artist: "Mac DeMarco - indie rock / jangle pop" },
+            { title: "Chamber of Reflection", artist: "Mac DeMarco - indie rock / synth-pop" },
+            { title: "On the Level", artist: "Mac DeMarco - indie rock / jangle pop" },
+            { title: "Like my Father", ref:"Jax - general pop"},
+        ];
+
+        let currentIndex = -1;
+
+        function showRandomSong() {
+            const textEl = document.getElementById("songText");
+            const refEl = document.getElementById("artistInfo");
+
+            textEl.parentElement.classList.add('changing');
+            refEl.classList.add('changing');
+
+            setTimeout(() => {
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * songs.length);
+                } while (newIndex === currentIndex && songs.length > 1);
+                
+                currentIndex = newIndex;
+                const song = songs[currentIndex];
+
+                textEl.textContent = song.title;
+                refEl.textContent = song.artist;
+
+                textEl.parentElement.classList.remove('changing');
+                refEl.classList.remove('changing');
+
+                textEl.style.animation = "none";
+                void textEl.offsetWidth;
+                textEl.style.animation = "fadeInOut 12s infinite ease-in-out";
+            }, 600);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                showRandomSong();
+            }
+        });
+
+        showRandomSong();
+    </script>
+
+</body>
+</html>
